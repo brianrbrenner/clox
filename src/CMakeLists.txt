@@ -1,10 +1,9 @@
-cmake_minimum_required(VERSION 3.8)
+add_library(clox)
 
-project(clox LANGUAGES C)
-set(CMAKE_C_FLAGS "-std=99")
-
-add_executable(clox main.c)
-target_include_directories(clox PUBLIC ${clox_SOURCE_DIR}/include PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(clox 
+  PUBLIC 
+    ${clox_SOURCE_DIR}/includes/clox
+)
 
 target_sources(clox
     PUBLIC
@@ -13,8 +12,10 @@ target_sources(clox
     memory.c
 )
 
-target_sources(clox_repl PRIVATE main.c)
+add_executable(clox main.c)
+
 set_target_properties(clox_repl PROPERTIES OUTPUT_NAME "clox")
 
-target_include_directories(clox PUBLIC includes/clox)
+
+target_sources(clox_repl PRIVATE main.c)
 target_link_libraries(clox_repl PRIVATE clox)
