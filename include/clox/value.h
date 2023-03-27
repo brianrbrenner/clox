@@ -5,5 +5,14 @@
 
 typedef double Value;
 
-#endif
+typedef struct {
+	int capacity;
+	int count;
+	Value *values;
+} ValueArray;
 
+void init_ValueArray(ValueArray* array);
+void write_ValueArray(ValueArray* array, Value value);
+void free_ValueArray(ValueArray* array);
+
+#endif
