@@ -1,11 +1,13 @@
 #include "../include/clox/chunk.h"
 #include "../include/clox/memory.h"
+#include "../include/clox/value.h"
 #include <stdint.h>
 
 void init_chunk(Chunk *chunk) {
   chunk->count = 0;
   chunk->capacity = 0;
   chunk->code = NULL;
+  init_ValueArray(&chunk->constants);
 }
 
 void write_chunk(Chunk *chunk, uint8_t byte) {
@@ -21,6 +23,11 @@ void write_chunk(Chunk *chunk, uint8_t byte) {
 
 void free_chunk(Chunk *chunk) {
   FREE_ARRAY(uint8_t, chunk->code, chunk->capacity);
+  free_ValueArray(&chunk->constants);
   init_chunk(chunk);
 }
 
+int add_constant(Chunk* chunk, Value value) {
+        write_ValueArray(&chunk->constants, value);
+        return chunk->constants.count - 1;
+}
